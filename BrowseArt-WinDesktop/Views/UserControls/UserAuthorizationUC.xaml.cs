@@ -12,17 +12,19 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using BrowseArt_WinDesktop.ViewModels;
 
-namespace BrowseArt_WinDesktop
+namespace BrowseArt_WinDesktop.Views.UserControls
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for UserAuthorizationUC.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class UserAuthorizationUC : UserControl
     {
-        public MainWindow()
+        public UserAuthorizationUC()
         {
             InitializeComponent();
+            DataContext = new AuthorizationVM();
         }
     }
 }

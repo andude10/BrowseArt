@@ -9,8 +9,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BrowseArt_API.Repositories
 {
-    internal class UserRepository : IRepository<User>
+    //TODO: Make asynchronous database access
+    public class UserRepository : IRepository<User>
     {
+        ~UserRepository()
+        {
+            Dispose();
+        }
+
         private UserContext db = new UserContext();
         public void Create(User item)
         {
@@ -49,6 +55,28 @@ namespace BrowseArt_API.Repositories
         {
             db.Entry(item).State = EntityState.Modified;
             db.SaveChanges();
+        }
+
+        /// <summary>
+        /// This method determines if a user exists with the same password and username.
+        /// Compares hashed passwords.
+        /// </summary>
+        /// <param name="user">Searched user</param>
+        private async Task<bool> ObjectExistsAsync(User user)
+        {
+            return await db.Users.AnyAsync(u => u.Username == user.Username &&
+                                                    u.HashedPassword == user.HashedPassword);
+        }
+
+        /// <summary>
+        /// This method determines if a user exists with the same password and username.
+        /// Compares hashed passwords.
+        /// </summary>
+        /// <param name="user">Searched user</param>
+        public bool ObjectExists(User user)
+        {
+            return db.Users.Any(u => u.Username == user.Username && 
+                                         u.HashedPassword == user.HashedPassword);
         }
 
         private bool disposed;
