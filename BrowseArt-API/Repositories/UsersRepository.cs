@@ -10,51 +10,53 @@ using Microsoft.EntityFrameworkCore;
 namespace BrowseArt_API.Repositories
 {
     //TODO: Make asynchronous database access
-    public class UserRepository : IRepository<User>
+    public class UsersRepository : IRepository<User>
     {
-        ~UserRepository()
+        ~UsersRepository()
         {
             Dispose();
         }
 
-        private UserContext db = new UserContext();
-        public void Create(User item)
+        private readonly  DatabaseContext dbContext = new DatabaseContext();
+
+        public void Create(User user)
         {
-            db.Users.Add(item);
-            db.SaveChanges();
+            if(dbContext.Users.Any(u => u.Username == user.Username)) return;
+            dbContext.Users.Add(user);
+            dbContext.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            User user = db.Users.Find(id);
+            User user = dbContext.Users.Find(id);
 
             if (user != null)
             {
-                db.Users.Remove(user);
+                dbContext.Users.Remove(user);
             }
 
-            db.SaveChanges();
+            dbContext.SaveChanges();
         }
 
-        public IEnumerable<User> GetUsersList()
+        public IEnumerable<User> GetObjectsList()
         {
-            return db.Users;
+            return dbContext.Users;
         }
 
         public User GetObject(int id)
         {
-            return db.Users.Find(id);
+            return dbContext.Users.Find(id);
         }
 
         public void Save()
         {
-            db.SaveChanges();
+            dbContext.SaveChanges();
         }
 
         public void Update(User item)
         {
-            db.Entry(item).State = EntityState.Modified;
-            db.SaveChanges();
+            dbContext.Entry(item).State = EntityState.Modified;
+            dbContext.SaveChanges();
         }
 
         /// <summary>
@@ -64,7 +66,7 @@ namespace BrowseArt_API.Repositories
         /// <param name="user">Searched user</param>
         private async Task<bool> ObjectExistsAsync(User user)
         {
-            return await db.Users.AnyAsync(u => u.Username == user.Username &&
+            return await dbContext.Users.AnyAsync(u => u.Username == user.Username &&
                                                     u.HashedPassword == user.HashedPassword);
         }
 
@@ -75,7 +77,7 @@ namespace BrowseArt_API.Repositories
         /// <param name="user">Searched user</param>
         public bool ObjectExists(User user)
         {
-            return db.Users.Any(u => u.Username == user.Username && 
+            return dbContext.Users.Any(u => u.Username == user.Username && 
                                          u.HashedPassword == user.HashedPassword);
         }
 
@@ -86,7 +88,7 @@ namespace BrowseArt_API.Repositories
             {
                 if (disposing)
                 {
-                    db.Dispose();
+                    dbContext.Dispose();
                 }
             }
             this.disposed = true;

@@ -39,12 +39,13 @@ namespace BrowseArt_WinDesktop.ViewModels
             {
                 return _login = new RelayCommand(() =>
                 {
-                    var repository = new UserRepository();
-                    var enteredUser = new User() { Username = Username, HashedPassword = Password };
+                    var repository = new UsersRepository();
+                    var hashing = new PasswordHashing();
+                    var enteredUser = new User() { Username = Username, HashedPassword = hashing.Hash(Password) };
 
                     bool result = repository.ObjectExists(enteredUser);
 
-                    LoginMessage loginMessage = new LoginMessage(result);
+                    LoginMessage loginMessage = new LoginMessage(result, enteredUser);
                     WeakReferenceMessenger.Default.Send(loginMessage);
                 });
             }

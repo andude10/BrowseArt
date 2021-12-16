@@ -1,44 +1,67 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Drawing;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using BrowseArt_API.Models;
 using BrowseArt_API.Repositories;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Toolkit.Mvvm;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Win32;
 
 namespace BrowseArt_WinDesktop.ViewModels
 {
     public class MainVM : BaseViewModel
     {
-        public MainVM()
+        public MainVM(User currentUser)
         {
-            UserRepository repository = new UserRepository();
-            DisplayUsers = new ObservableCollection<User>(repository.GetUsersList());
+            CurrentUser = currentUser;
+            UpdateData();
         }
-        private ObservableCollection<User> _displayUsers;
-        public ObservableCollection<User> DisplayUsers
+
+        private ObservableCollection<Photo> _photos;
+        public ObservableCollection<Photo> Photos
         {
-            get => _displayUsers;
-            set => RaisePropertyChanged(ref _displayUsers, value);
+            get => _photos;
+            set => RaisePropertyChanged(ref _photos, value);
+        }
+
+        private User _currentUser;
+        public User CurrentUser
+        {
+            get => _currentUser;
+            set => RaisePropertyChanged(ref _currentUser, value);
         }
 
         #region Commands
 
-        private ICommand _createUser;
-        public ICommand CreateUser
+        private ICommand _createPhoto;
+        public ICommand CreatePhoto
         {
             get
             {
-                return _createUser = new RelayCommand(() =>
+                return _createPhoto = new RelayCommand(() =>
                 {
-                    UserRepository repository = new UserRepository();
-                    repository.Create(new User() { Username = "TestUser", HashedPassword = "12345"});
-                    UpdateData();
+                    OpenFileDialog dialog = new OpenFileDialog();
+                    if (dialog.ShowDialog() == true)
+                    {
+                        BitmapSource image = new BitmapImage(new Uri(dialog.FileName));
+                        byte[] imageData = BitmapSourceToByteArray(image);
+                        var photo = new Photo()
+                        {
+                            Title = "testTitle",
+                            ImageData = imageData,
+                            Username = CurrentUser.Username
+                        };
+
+                        PhotosRepository photosRepository = new PhotosRepository();
+                        photosRepository.Create(photo);
+
+                        UpdateData();
+                    }
                 });
             }
         }
@@ -47,8 +70,19 @@ namespace BrowseArt_WinDesktop.ViewModels
 
         private void UpdateData()
         {
-            UserRepository repository = new UserRepository();
-            DisplayUsers = new ObservableCollection<User>(repository.GetUsersList());
+            Photos = new ObservableCollection<Photo>(new PhotosRepository().GetObjectsList());
+        }
+
+        private byte[] BitmapSourceToByteArray(BitmapSource image)
+        {
+            using var stream = new MemoryStream();
+
+            var encoder = new PngBitmapEncoder();
+
+            encoder.Frames.Add(BitmapFrame.Create(image));
+            encoder.Save(stream);
+
+            return stream.ToArray();
         }
     }
 }

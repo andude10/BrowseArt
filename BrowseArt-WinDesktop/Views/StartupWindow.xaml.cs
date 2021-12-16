@@ -22,7 +22,7 @@ namespace BrowseArt_WinDesktop.Views
         {
             if (message.IsSuccessful)
             {
-                MainWindow mainWindow = new MainWindow();
+                MainWindow mainWindow = new MainWindow(message.CurrentUser);
                 mainWindow.Show();
                 this.Close();
             }
