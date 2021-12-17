@@ -56,18 +56,18 @@ namespace BrowseArt_API.Repositories
             dbContext.SaveChanges();
         }
 
-        private bool disposed;
+        private bool _disposed;
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!this.disposed)
+            if (!this._disposed)
             {
                 if (disposing)
                 {
                     dbContext.Dispose();
                 }
             }
-            this.disposed = true;
+            this._disposed = true;
         }
 
         public void Dispose()

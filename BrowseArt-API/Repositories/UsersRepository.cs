@@ -17,7 +17,7 @@ namespace BrowseArt_API.Repositories
             Dispose();
         }
 
-        private readonly  DatabaseContext dbContext = new DatabaseContext();
+        private readonly DatabaseContext dbContext = new DatabaseContext();
 
         public void Create(User user)
         {
@@ -28,7 +28,7 @@ namespace BrowseArt_API.Repositories
 
         public void Delete(int id)
         {
-            User user = dbContext.Users.Find(id);
+            User? user = dbContext.Users.Find(id);
 
             if (user != null)
             {
@@ -60,19 +60,8 @@ namespace BrowseArt_API.Repositories
         }
 
         /// <summary>
-        /// This method determines if a user exists with the same password and username.
-        /// Compares hashed passwords.
-        /// </summary>
-        /// <param name="user">Searched user</param>
-        private async Task<bool> ObjectExistsAsync(User user)
-        {
-            return await dbContext.Users.AnyAsync(u => u.Username == user.Username &&
-                                                    u.HashedPassword == user.HashedPassword);
-        }
-
-        /// <summary>
-        /// This method determines if a user exists with the same password and username.
-        /// Compares hashed passwords.
+        ///     This method determines if a user exists with the same password and username.
+        ///     Compares hashed passwords.
         /// </summary>
         /// <param name="user">Searched user</param>
         public bool ObjectExists(User user)

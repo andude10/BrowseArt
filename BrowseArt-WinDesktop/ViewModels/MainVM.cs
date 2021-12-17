@@ -45,23 +45,37 @@ namespace BrowseArt_WinDesktop.ViewModels
             {
                 return _createPhoto = new RelayCommand(() =>
                 {
-                    OpenFileDialog dialog = new OpenFileDialog();
+                    var dialog = new OpenFileDialog();
                     if (dialog.ShowDialog() == true)
                     {
-                        BitmapSource image = new BitmapImage(new Uri(dialog.FileName));
-                        byte[] imageData = BitmapSourceToByteArray(image);
+                        var image = new BitmapImage(new Uri(dialog.FileName));
                         var photo = new Photo()
                         {
                             Title = "testTitle",
-                            ImageData = imageData,
+                            ImageData = BitmapSourceToByteArray(image),
                             Username = CurrentUser.Username
                         };
 
-                        PhotosRepository photosRepository = new PhotosRepository();
+                        var photosRepository = new PhotosRepository();
                         photosRepository.Create(photo);
 
                         UpdateData();
                     }
+                });
+            }
+        }
+
+        private ICommand _deletePhoto;
+        public ICommand DeletePhoto
+        {
+            get
+            {
+                return _deletePhoto = new RelayCommand<int>(obj =>
+                {
+                    var photosRepository = new PhotosRepository();
+                    photosRepository.Delete(obj);
+
+                    UpdateData();
                 });
             }
         }

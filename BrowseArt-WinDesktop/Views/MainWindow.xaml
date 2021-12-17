@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:helpers="clr-namespace:BrowseArt_WinDesktop.Helpers"
-        xmlns:local="clr-namespace:BrowseArt_WinDesktop"
 
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
@@ -65,6 +64,7 @@
                         <Grid.Resources>
                             <helpers:PhotoConverter x:Key="PhotoConverter"></helpers:PhotoConverter>
                         </Grid.Resources>
+
                         <StackPanel HorizontalAlignment="Center"
                                     VerticalAlignment="Center">
                             <Image Source="{Binding ImageData, Converter={StaticResource PhotoConverter}}"
@@ -77,7 +77,7 @@
                                      TextAlignment="Center"
                                      FontSize="25"
                                      Margin="10"
-                                     HorizontalAlignment="Center" VerticalAlignment="Center"></TextBox>
+                                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             <TextBox Text="{Binding Description}"
                                      MinWidth="400"
                                      TextWrapping="Wrap"
@@ -85,7 +85,14 @@
                                      TextAlignment="Center"
                                      FontSize="18"
                                      Margin="10"
-                                     HorizontalAlignment="Center" VerticalAlignment="Center"></TextBox>
+                                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </StackPanel>
+
+                        <StackPanel HorizontalAlignment="Left" MinWidth="130">
+                            <Button Command="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl},
+                                          Path=DataContext.DeletePhoto}"
+                                    CommandParameter="{Binding PhotoId}"
+                                    Content="Delete this photo"/>
                         </StackPanel>
                     </Grid>
                 </DataTemplate>
