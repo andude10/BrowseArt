@@ -49,12 +49,10 @@ namespace BrowseArt_WinDesktop.ViewModels
                     var repository = new UsersRepository();
                     var hashing = new PasswordHashing();
 
-                    var newUser = new User() {Username = Username, HashedPassword = hashing.Hash(Password)};
-
-                    if (repository.IsUsernameNotTaken(newUser.Username))
+                    if (repository.IsUsernameNotTaken(Username))
                     {
-                        repository.Create(newUser);
-                        WeakReferenceMessenger.Default.Send(new LoginMessage(true, newUser));
+                        repository.Create(new User() {Username = Username, HashedPassword = hashing.Hash(Password)});
+                        WeakReferenceMessenger.Default.Send(new LoginMessage(true, Username));
                     }
                     else
                     {

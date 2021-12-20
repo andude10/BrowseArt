@@ -41,11 +41,10 @@ namespace BrowseArt_WinDesktop.ViewModels
                 {
                     var repository = new UsersRepository();
                     var hashing = new PasswordHashing();
-                    var enteredUser = new User() { Username = Username, HashedPassword = hashing.Hash(Password) };
 
-                    bool result = repository.ObjectExists(enteredUser);
+                    bool result = repository.ObjectExists( new User() { Username = Username, HashedPassword = hashing.Hash(Password) });
 
-                    LoginMessage loginMessage = new LoginMessage(result, enteredUser);
+                    LoginMessage loginMessage = new LoginMessage(result, Username);
                     WeakReferenceMessenger.Default.Send(loginMessage);
                 });
             }

@@ -9,12 +9,12 @@ namespace BrowseArt_WinDesktop.Services
 {
     internal class LoginMessage
     {
-        public LoginMessage(bool isSuccessful, User currentUser)
+        public LoginMessage(bool isSuccessful, string currentUsername)
         {
             IsSuccessful = isSuccessful;
-            CurrentUser = currentUser;
+            CurrentUsername = currentUsername;
         }
         public bool IsSuccessful { get; set; }
-        public User CurrentUser { get; set; }
+        public string CurrentUsername { get; set; }
     }
 }

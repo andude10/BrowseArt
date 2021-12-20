@@ -38,19 +38,9 @@ namespace BrowseArt_API.Repositories
             dbContext.SaveChanges();
         }
 
-        public IEnumerable<User> GetObjectsList()
-        {
-            return dbContext.Users;
-        }
-
         public User GetObject(int id)
         {
             return dbContext.Users.Find(id);
-        }
-
-        public void Save()
-        {
-            dbContext.SaveChanges();
         }
 
         public void Update(User item)

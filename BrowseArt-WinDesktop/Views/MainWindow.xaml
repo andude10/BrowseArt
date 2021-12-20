@@ -44,7 +44,7 @@
                            Width="400"
                            Margin="20,0,0,0"
                            VerticalAlignment="Center" HorizontalAlignment="Left">
-                    <Run Text="{Binding CurrentUser.Username}"></Run>
+                    <Run Text="{Binding CurrentUsername}"></Run>
                     <Run Text="collection"></Run>
                     <TextBlock.ContextMenu>
                         <ContextMenu>
@@ -73,11 +73,23 @@
 
                         <StackPanel HorizontalAlignment="Center"
                                     VerticalAlignment="Center">
-                            <Image Source="{Binding ImageData, Converter={StaticResource PhotoConverter}}"
-                                   Height="400" Width="400"
-                                   Stretch="Fill"
-                                   Margin="10"
-                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Grid Height="450" Width="600">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition Height="10*"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Button Command="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl},
+                                                              Path=DataContext.DeletePhoto}"
+                                        CommandParameter="{Binding PhotoId}"
+                                        Width="150"
+                                        Content="Delete this photo"
+                                        HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                
+                                <Image Grid.Row="1" Source="{Binding ImageData, Converter={StaticResource PhotoConverter}}"
+                                       Height="500" Width="600"
+                                       Stretch="Fill"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
                             <TextBox Text="{Binding Title}" 
                                      MinWidth="100"
                                      TextAlignment="Center"
@@ -92,13 +104,6 @@
                                      FontSize="18"
                                      Margin="10"
                                      HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </StackPanel>
-
-                        <StackPanel HorizontalAlignment="Left" MinWidth="130">
-                            <Button Command="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl},
-                                          Path=DataContext.DeletePhoto}"
-                                    CommandParameter="{Binding PhotoId}"
-                                    Content="Delete this photo"/>
                         </StackPanel>
                     </Grid>
                 </DataTemplate>

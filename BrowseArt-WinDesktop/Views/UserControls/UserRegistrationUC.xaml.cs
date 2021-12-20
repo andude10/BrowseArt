@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace BrowseArt_WinDesktop.Views.UserControls
 {
     /// <summary>
-    /// Логика взаимодействия для UserRegistrationUC.xaml
+    /// Interaction logic for UserRegistrationUC.xaml
     /// </summary>
     public partial class UserRegistrationUC : UserControl
     {

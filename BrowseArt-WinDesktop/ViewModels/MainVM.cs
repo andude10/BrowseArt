@@ -16,9 +16,14 @@ namespace BrowseArt_WinDesktop.ViewModels
 {
     public class MainVM : BaseViewModel
     {
-        public MainVM(User currentUser)
+        ~MainVM()
         {
-            CurrentUser = currentUser;
+
+        }
+
+        public MainVM(string currentUsername)
+        {
+            CurrentUsername = currentUsername;
             UpdateData();
         }
 
@@ -29,11 +34,11 @@ namespace BrowseArt_WinDesktop.ViewModels
             set => RaisePropertyChanged(ref _photos, value);
         }
 
-        private User _currentUser;
-        public User CurrentUser
+        private string _currentUsername;
+        public string CurrentUsername
         {
-            get => _currentUser;
-            set => RaisePropertyChanged(ref _currentUser, value);
+            get => _currentUsername;
+            set => RaisePropertyChanged(ref _currentUsername, value);
         }
 
         #region Commands
@@ -46,21 +51,20 @@ namespace BrowseArt_WinDesktop.ViewModels
                 return _createPhoto = new RelayCommand(() =>
                 {
                     var dialog = new OpenFileDialog();
-                    if (dialog.ShowDialog() == true)
+                    if (dialog.ShowDialog() != true) return;
+
+                    var image = new BitmapImage(new Uri(dialog.FileName));
+                    var photo = new Photo()
                     {
-                        var image = new BitmapImage(new Uri(dialog.FileName));
-                        var photo = new Photo()
-                        {
-                            Title = "testTitle",
-                            ImageData = BitmapSourceToByteArray(image),
-                            Username = CurrentUser.Username
-                        };
+                        Title = "testTitle",
+                        ImageData = BitmapSourceToByteArray(image),
+                        Username = CurrentUsername
+                    };
 
-                        var photosRepository = new PhotosRepository();
-                        photosRepository.Create(photo);
+                    var photosRepository = new PhotosRepository();
+                    photosRepository.Create(photo);
 
-                        UpdateData();
-                    }
+                    UpdateData();
                 });
             }
         }
@@ -84,7 +88,13 @@ namespace BrowseArt_WinDesktop.ViewModels
 
         private void UpdateData()
         {
-            Photos = new ObservableCollection<Photo>(new PhotosRepository().GetObjectsList());
+            var photosRepository = new PhotosRepository();
+            for (int i = 0; i < Photos.Count; i++)
+            {
+                photosRepository.Update(Photos[i]);
+            }
+
+            Photos = new ObservableCollection<Photo>(photosRepository.GetUserPhotos(CurrentUsername));
         }
 
         private byte[] BitmapSourceToByteArray(BitmapSource image)

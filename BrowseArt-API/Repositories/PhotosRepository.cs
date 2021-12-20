@@ -17,6 +17,7 @@ namespace BrowseArt_API.Repositories
         }
 
         private DatabaseContext dbContext = new DatabaseContext();
+
         public void Create(Photo item)
         {
             dbContext.Photos.Add(item);
@@ -35,25 +36,23 @@ namespace BrowseArt_API.Repositories
             dbContext.SaveChanges();
         }
 
-        public IEnumerable<Photo> GetObjectsList()
-        {
-            return dbContext.Photos;
-        }
 
         public Photo GetObject(int id)
         {
             return dbContext.Photos.Find(id);
         }
 
-        public void Save()
-        {
-            dbContext.SaveChanges();
-        }
-
         public void Update(Photo item)
         {
             dbContext.Entry(item).State = EntityState.Modified;
             dbContext.SaveChanges();
+        }
+
+        /// <param name="user">Searched user</param>
+        /// <returns>Returns a list of all the user's photos</returns>
+        public IEnumerable<Photo> GetUserPhotos(string username)
+        {
+            return dbContext.Photos.Where(p => p.Username == username);
         }
 
         private bool _disposed;

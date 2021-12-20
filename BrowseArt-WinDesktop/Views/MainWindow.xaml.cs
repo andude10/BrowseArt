@@ -11,10 +11,10 @@ namespace BrowseArt_WinDesktop.Views
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow(User currentUser)
+        public MainWindow(string currentUsername)
         {
             InitializeComponent();
-            DataContext = new MainVM(currentUser);
+            DataContext = new MainVM(currentUsername);
         }
 
         protected override void OnClosing(CancelEventArgs e)
