@@ -5,8 +5,10 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
     <Application.Resources>
         <ResourceDictionary>
+            <SolidColorBrush x:Key="PrimaryColor" Color="DarkMagenta"></SolidColorBrush>
+            <SolidColorBrush x:Key="SecondaryColor" Color="GhostWhite"></SolidColorBrush>
             <ResourceDictionary.MergedDictionaries>
-                <materialDesign:CustomColorTheme BaseTheme="Light" PrimaryColor="DodgerBlue" SecondaryColor="Black" />
+                <materialDesign:CustomColorTheme BaseTheme="Light" PrimaryColor="DarkMagenta" SecondaryColor="GhostWhite" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

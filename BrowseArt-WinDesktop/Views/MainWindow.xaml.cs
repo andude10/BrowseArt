@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Windows;
+using System.Windows.Input;
 using BrowseArt_API.Models;
 using BrowseArt_WinDesktop.ViewModels;
 
@@ -21,6 +22,7 @@ namespace BrowseArt_WinDesktop.Views
             base.OnClosing(e);
         }
 
+        #region TitleBar
         private void CloseWindow(object sender, System.Windows.RoutedEventArgs e) => this.Close();
         private void MinimizedWindow(object sender, System.Windows.RoutedEventArgs e)
         {
@@ -31,9 +33,13 @@ namespace BrowseArt_WinDesktop.Views
             this.WindowState = WindowState.Maximized;
 
         }
-        private void MoveWindow(object sender, System.Windows.RoutedEventArgs e)
+        private void MoveWindow(object sender, MouseButtonEventArgs e)
         {
-            DragMove();
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragMove();
+            }
         }
+        #endregion
     }
 }

@@ -8,27 +8,32 @@
              d:DesignHeight="450" d:DesignWidth="400">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="6*"></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="6*"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
-        <StackPanel Margin="30" Orientation="Horizontal">
-            <StackPanel Width="90">
-                <Label Content="Username"
-                       Margin="10"></Label>
-                <Label Content="Password"
-                       Margin="10"></Label>
+        <StackPanel Margin="15" Orientation="Horizontal">
+            <StackPanel Width="180">
+                <Label Content="New username" FontSize="20" Foreground="Blue"
+                       Margin="10"/>
+                <Label Content="Password" FontSize="20"
+                       Margin="10"/>
+                <Label Content="Repeat password" FontSize="20"
+                       Margin="10"/>
             </StackPanel>
-            <StackPanel Width="200">
-                <TextBox Text="{Binding Username}"
+            <StackPanel Width="190">
+                <TextBox Text="{Binding Username}" FontSize="18"
                          Margin="10"
-                         Height="25"></TextBox>
-                <TextBox Text="{Binding Password}"
+                         Height="33"/>
+                <TextBox Text="{Binding Password}" FontSize="18"
                          Margin="10"
-                         Height="25"></TextBox>
+                         Height="33"/>
+                <TextBox Text="{Binding RepeatedPassword}" FontSize="18"
+                         Margin="10"
+                         Height="33"/>
             </StackPanel>
         </StackPanel>
         <Button Content="Register"
                 Command="{Binding CreateUser}"
-                Grid.Row="1"></Button>
+                Grid.Row="1"/>
     </Grid>
 </UserControl>

@@ -12,19 +12,19 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <StackPanel Margin="30" Orientation="Horizontal">
-            <StackPanel Width="90">
-                <Label Content="Username"
-                       Margin="10"></Label>
-                <Label Content="Password"
-                       Margin="10"></Label>
+            <StackPanel Width="120">
+                <Label Content="Username" FontSize="20"
+                       Margin="10"/>
+                <Label Content="Password" FontSize="20"
+                       Margin="10"/>
             </StackPanel>
-            <StackPanel Width="200">
-                <TextBox Text="{Binding Username}"
+            <StackPanel Width="190">
+                <TextBox Text="{Binding Username}" FontSize="18"
                          Margin="10"
-                         Height="25"></TextBox>
-                <TextBox Text="{Binding Password}"
+                         Height="33"/>
+                <TextBox Text="{Binding Password}" FontSize="18"
                          Margin="10"
-                         Height="25"></TextBox>
+                         Height="33"/>
             </StackPanel>
         </StackPanel>
         <Button Content="Apply"

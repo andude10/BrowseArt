@@ -70,6 +70,16 @@ namespace BrowseArt_API.Repositories
                                          u.HashedPassword == user.HashedPassword);
         }
 
+        /// <summary>
+        ///     This method determines if the username is taken.
+        ///     True if is not taken.
+        /// </summary>
+        /// <param name="username">Searched username</param>
+        public bool IsUsernameNotTaken(string username)
+        {
+            return !dbContext.Users.Any(u => u.Username == username);
+        }
+
         private bool disposed;
         public virtual void Dispose(bool disposing)
         {

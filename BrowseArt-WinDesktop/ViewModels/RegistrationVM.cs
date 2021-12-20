@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Windows;
+using System.Windows.Input;
 using BrowseArt_API.Models;
 using BrowseArt_API.Repositories;
 using BrowseArt_WinDesktop.Services;
@@ -23,6 +24,13 @@ namespace BrowseArt_WinDesktop.ViewModels
             set => RaisePropertyChanged(ref _password, value);
         }
 
+        private string _repeatedPassword;
+        public string RepeatedPassword
+        {
+            get => _repeatedPassword;
+            set => RaisePropertyChanged(ref _repeatedPassword, value);
+        }
+
         #region Command
 
         private ICommand _createUser;
@@ -32,13 +40,27 @@ namespace BrowseArt_WinDesktop.ViewModels
             {
                 return _createUser = new RelayCommand(() =>
                 {
+                    if (Password != RepeatedPassword)
+                    {
+                        MessageBox.Show("Password mismatch", "Registration Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
                     var repository = new UsersRepository();
                     var hashing = new PasswordHashing();
 
                     var newUser = new User() {Username = Username, HashedPassword = hashing.Hash(Password)};
-                    repository.Create(newUser);
 
-                    WeakReferenceMessenger.Default.Send(new LoginMessage(true, newUser));
+                    if (repository.IsUsernameNotTaken(newUser.Username))
+                    {
+                        repository.Create(newUser);
+                        WeakReferenceMessenger.Default.Send(new LoginMessage(true, newUser));
+                    }
+                    else
+                    {
+                        MessageBox.Show("Username is taken", "Registration Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+
                 });
             }
         }

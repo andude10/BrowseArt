@@ -6,21 +6,31 @@
         xmlns:usercontrols="clr-namespace:BrowseArt_WinDesktop.Views.UserControls"
         xmlns:vm="clr-namespace:BrowseArt_WinDesktop.ViewModels"
         mc:Ignorable="d"
+
+        WindowStartupLocation="CenterScreen"
         Title="StartupWindow" Height="450" Width="390">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
             <RowDefinition Height="5*"></RowDefinition>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal"
-                    VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Button Content="Authorization" Margin="10"
-                    Height="30" Width="100"
-                    Command="{Binding ToAuthorizationScreen}"></Button>
-            <Button Content="Registration"
-                    Height="30" Width="100" Margin="10"
-                    Command="{Binding ToRegistrationScreen}"></Button>
-        </StackPanel>
+        <Border Grid.Row="0"
+                BorderThickness="0,0,0,4" 
+                BorderBrush="{StaticResource PrimaryColor}">
+            <StackPanel Orientation="Horizontal"
+                        VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Button Content="Authorization" FontSize="19"
+                        Margin="10"
+                        Height="35" Width="160"
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        Command="{Binding ToAuthorizationScreen}"></Button>
+                <Button Content="Registration" FontSize="19"
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        Height="35" Width="160" Margin="10"
+                        Command="{Binding ToRegistrationScreen}"></Button>
+            </StackPanel>
+        </Border>
         <Grid Grid.Row="1">
             <Grid.Resources>
                 <DataTemplate DataType="{x:Type vm:AuthorizationVM}">

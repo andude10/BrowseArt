@@ -15,42 +15,48 @@
             <RowDefinition Height="14*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
-            <Label BorderThickness="0,0,0,2"
-                   BorderBrush="Black"></Label>
+        <Border Grid.Row="0"
+                BorderThickness="0,0,0,4"
+                BorderBrush="{StaticResource PrimaryColor}">
+            <Grid>
+                <Rectangle MouseDown="MoveWindow"
+                           Fill="Transparent"
+                           VerticalAlignment="Top" Height="30" />
 
-            <Rectangle MouseDown="MoveWindow"
-                       Fill="Transparent"
-                       VerticalAlignment="Top" Height="30" />
+                <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                    <Button Click="MinimizedWindow"
+                            Content="–" FontSize="25"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Background="Transparent" Foreground="{StaticResource PrimaryColor}"
+                            BorderThickness="0" 
+                            Height="40" Width="51" />
+                    <Button Click="CloseWindow"
+                            Content="×" FontSize="25"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Background="Transparent" Foreground="{StaticResource PrimaryColor}" 
+                            BorderThickness="0" 
+                            Height="40" Width="51" />
+                </StackPanel>
 
-            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center"
-                        Orientation="Horizontal">
-                <Button Click="MinimizedWindow"
-                        Content="–" FontSize="25"
-                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                        Background="Transparent" BorderThickness="0" 
-                        Height="40" Width="51" />
-                <Button Click="CloseWindow"
-                        Content="×" FontSize="25"
-                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                        Background="Transparent" BorderThickness="0" 
-                        Height="40" Width="51" />
-            </StackPanel>
-
-            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center"
-                        Orientation="Horizontal">
-                <TextBlock Text="{Binding CurrentUser.Username}"
-                           FontWeight="Bold" FontSize="21"
+                <TextBlock FontWeight="Bold" FontSize="21"
                            Height="30"
-                           Margin="20,0,0,0">
+                           Width="400"
+                           Margin="20,0,0,0"
+                           VerticalAlignment="Center" HorizontalAlignment="Left">
+                    <Run Text="{Binding CurrentUser.Username}"></Run>
+                    <Run Text="collection"></Run>
+                    <TextBlock.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Аdd new photo" FontSize="19"
+                                      Command="{Binding CreatePhoto}"
+                                      Margin="5"
+                                      Height="28"/>
+                        </ContextMenu>
+                    </TextBlock.ContextMenu>
                 </TextBlock>
-                <Button Content="Аdd new photo" FontSize="21"
-                        Command="{Binding CreatePhoto}"
-                        Background="Transparent" BorderThickness="0" 
-                        Margin="20,0,0,2"
-                        Height="35"/>
-            </StackPanel>
-        </Grid>
+            </Grid>
+        </Border>
 
         <ListBox Grid.Row="1"
                  ItemsSource="{Binding Photos, UpdateSourceTrigger=PropertyChanged}"
