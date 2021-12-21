@@ -8,9 +8,9 @@ namespace BrowseArt_WinDesktop
     {
         public string Hash(string password)
         {
-            byte[] data = Encoding.Default.GetBytes(password);
-            SHA1 sha = new SHA1CryptoServiceProvider();
-            byte[] result = sha.ComputeHash(data);
+            var data = Encoding.Default.GetBytes(password);
+            SHA1 sha = SHA1.Create();
+            var result = sha.ComputeHash(data);
             password = Convert.ToBase64String(result);
             return password;
         }

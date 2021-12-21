@@ -16,6 +16,12 @@ namespace BrowseArt_WinDesktop.ViewModels
 {
     public class AuthorizationVM : BaseViewModel
     {
+        public AuthorizationVM()
+        {
+            Username = "";
+            Password = "";
+        }
+
         private string _username;
         public string Username
         {
@@ -42,9 +48,9 @@ namespace BrowseArt_WinDesktop.ViewModels
                     var repository = new UsersRepository();
                     var hashing = new PasswordHashing();
 
-                    bool result = repository.ObjectExists( new User() { Username = Username, HashedPassword = hashing.Hash(Password) });
+                    var result = repository.ObjectExists(new User() { Username = Username, HashedPassword = hashing.Hash(Password) });
 
-                    LoginMessage loginMessage = new LoginMessage(result, Username);
+                    var loginMessage = new LoginMessage(result, Username);
                     WeakReferenceMessenger.Default.Send(loginMessage);
                 });
             }

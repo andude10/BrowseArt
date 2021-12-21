@@ -18,7 +18,7 @@ namespace BrowseArt_WinDesktop.ViewModels
     {
         ~MainVM()
         {
-
+            UpdateData();
         }
 
         public MainVM(string currentUsername)
@@ -89,15 +89,19 @@ namespace BrowseArt_WinDesktop.ViewModels
         private void UpdateData()
         {
             var photosRepository = new PhotosRepository();
-            for (int i = 0; i < Photos.Count; i++)
+
+            if (Photos != null)
             {
-                photosRepository.Update(Photos[i]);
+                foreach (var t in Photos)
+                {
+                    photosRepository.Update(t);
+                }
             }
 
             Photos = new ObservableCollection<Photo>(photosRepository.GetUserPhotos(CurrentUsername));
         }
 
-        private byte[] BitmapSourceToByteArray(BitmapSource image)
+        private static byte[] BitmapSourceToByteArray(BitmapSource image)
         {
             using var stream = new MemoryStream();
 
