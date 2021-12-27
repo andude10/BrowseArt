@@ -9,50 +9,49 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BrowseArt_API.Repositories
 {
-    public class PhotosRepository : IRepository<Photo>
+    public class PhotosRepository : IPhotosRepository
     {
-        ~PhotosRepository()
-        {
-            Dispose();
-        }
+        private DatabaseContext _dbContext;
 
-        private DatabaseContext dbContext = new DatabaseContext();
+        public PhotosRepository()
+        {
+            _dbContext = new DatabaseContext();
+        }
 
         public void Create(Photo item)
         {
-            dbContext.Photos.Add(item);
-            dbContext.SaveChanges();
+            _dbContext.Photos.Add(item);
+            _dbContext.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            Photo photo = dbContext.Photos.Find(id);
+            Photo photo = _dbContext.Photos.Find(id);
 
             if (photo != null)
             {
-                dbContext.Photos.Remove(photo);
+                _dbContext.Photos.Remove(photo);
             }
 
-            dbContext.SaveChanges();
+            _dbContext.SaveChanges();
         }
 
-
-        public Photo GetObject(int id)
+        public Photo GetPhoto(int id)
         {
-            return dbContext.Photos.Find(id);
+            return _dbContext.Photos.Find(id);
         }
 
         public void Update(Photo item)
         {
-            dbContext.Entry(item).State = EntityState.Modified;
-            dbContext.SaveChanges();
+            _dbContext.Entry(item).State = EntityState.Modified;
+            _dbContext.SaveChanges();
         }
 
-        /// <param name="user">Searched user</param>
+        /// <param name="username">Searched user</param>
         /// <returns>Returns a list of all the user's photos</returns>
         public IEnumerable<Photo> GetUserPhotos(string username)
         {
-            return dbContext.Photos.Where(p => p.Username == username);
+            return _dbContext.Photos.Where(p => p.Username == username);
         }
 
         private bool _disposed;
@@ -63,7 +62,7 @@ namespace BrowseArt_API.Repositories
             {
                 if (disposing)
                 {
-                    dbContext.Dispose();
+                    _dbContext.Dispose();
                 }
             }
             this._disposed = true;

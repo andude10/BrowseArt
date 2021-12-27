@@ -16,13 +16,13 @@ namespace BrowseArt_WinDesktop.ViewModels
 {
     public class MainVM : BaseViewModel
     {
-        ~MainVM()
-        {
-            UpdateData();
-        }
-
+        private IUsersRepository _usersRepository;
+        private IPhotosRepository _photosRepository;
         public MainVM(string currentUsername)
         {
+            _usersRepository = new UsersRepository();
+            _photosRepository = new PhotosRepository();
+
             CurrentUsername = currentUsername;
             UpdateData();
         }
@@ -85,7 +85,6 @@ namespace BrowseArt_WinDesktop.ViewModels
         }
 
         #endregion
-
         private void UpdateData()
         {
             var photosRepository = new PhotosRepository();

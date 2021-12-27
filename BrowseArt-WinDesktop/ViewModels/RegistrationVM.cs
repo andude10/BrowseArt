@@ -10,6 +10,13 @@ namespace BrowseArt_WinDesktop.ViewModels
 {
     public class RegistrationVM : BaseViewModel
     {
+        private IUsersRepository _usersRepository;
+
+        public RegistrationVM()
+        {
+            _usersRepository = new UsersRepository();
+        }
+
         private string _username;
         public string Username
         {
@@ -45,13 +52,11 @@ namespace BrowseArt_WinDesktop.ViewModels
                         MessageBox.Show("Password mismatch", "Registration Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
-
-                    var repository = new UsersRepository();
                     var hashing = new PasswordHashing();
 
-                    if (repository.IsUsernameNotTaken(Username))
+                    if (_usersRepository.IsUsernameNotTaken(Username))
                     {
-                        repository.Create(new User() {Username = Username, HashedPassword = hashing.Hash(Password)});
+                        _usersRepository.Create(new User() {Username = Username, HashedPassword = hashing.Hash(Password)});
                         WeakReferenceMessenger.Default.Send(new LoginMessage(true, Username));
                     }
                     else

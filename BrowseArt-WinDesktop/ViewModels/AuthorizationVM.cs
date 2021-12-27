@@ -16,8 +16,10 @@ namespace BrowseArt_WinDesktop.ViewModels
 {
     public class AuthorizationVM : BaseViewModel
     {
+        private IUsersRepository _usersRepository;
         public AuthorizationVM()
         {
+            _usersRepository = new UsersRepository();
             Username = "";
             Password = "";
         }
@@ -45,10 +47,9 @@ namespace BrowseArt_WinDesktop.ViewModels
             {
                 return _login = new RelayCommand(() =>
                 {
-                    var repository = new UsersRepository();
                     var hashing = new PasswordHashing();
 
-                    var result = repository.ObjectExists(new User() { Username = Username, HashedPassword = hashing.Hash(Password) });
+                    var result = _usersRepository.ObjectExists(new User() { Username = Username, HashedPassword = hashing.Hash(Password) });
 
                     var loginMessage = new LoginMessage(result, Username);
                     WeakReferenceMessenger.Default.Send(loginMessage);

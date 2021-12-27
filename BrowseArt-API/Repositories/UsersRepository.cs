@@ -10,13 +10,8 @@ using Microsoft.EntityFrameworkCore;
 namespace BrowseArt_API.Repositories
 {
     //TODO: Make asynchronous database access
-    public class UsersRepository : IRepository<User>
+    public class UsersRepository : IUsersRepository
     {
-        ~UsersRepository()
-        {
-            Dispose();
-        }
-
         private readonly DatabaseContext dbContext = new DatabaseContext();
 
         public void Create(User user)
@@ -38,7 +33,7 @@ namespace BrowseArt_API.Repositories
             dbContext.SaveChanges();
         }
 
-        public User GetObject(int id)
+        public User GetUser(int id)
         {
             return dbContext.Users.Find(id);
         }
